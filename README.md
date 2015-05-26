@@ -16,7 +16,6 @@ docker run --rm -it -v `pwd`:/spark-data spark-shell
 ## And start to play
 In your container, you can run spark command :
 ```java
-val sqlContext = new org.apache.spark.sql.SQLContext(sc)
 val people = sqlContext.jsonFile("people.json")
 people.printSchema()
 people.registerTempTable("people")

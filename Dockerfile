@@ -12,7 +12,10 @@ WORKDIR /opt/spark
 ENV SPARK_VERSION 1.3.1
 RUN curl -L http://apache.websitebeheerjd.nl/spark/spark-$SPARK_VERSION/spark-$SPARK_VERSION.tgz > spark.tgz && tar -xvzf spark.tgz
 WORKDIR /opt/spark/spark-$SPARK_VERSION
-RUN mvn -DskipTests clean package
+RUN mvn -Pyarn -Phadoop-2.4 -Dhadoop.version=2.4.0 -Phive -Phive-thriftserver -DskipTests clean package
+
+RUN cp /opt/spark/spark-$SPARK_VERSION/conf/log4j.properties.template /opt/spark/spark-$SPARK_VERSION/conf/log4j.properties && \
+    sed -i 's/rootCategory=INFO/rootCategory=WARN/' /opt/spark/spark-$SPARK_VERSION/conf/log4j.properties
 
 VOLUME /spark-data
 WORKDIR /spark-data
