@@ -17,6 +17,9 @@ RUN mvn -Pyarn -Phadoop-2.4 -Dhadoop.version=2.4.0 -Phive -Phive-thriftserver -D
 RUN cp /opt/spark/spark-$SPARK_VERSION/conf/log4j.properties.template /opt/spark/spark-$SPARK_VERSION/conf/log4j.properties && \
     sed -i 's/rootCategory=INFO/rootCategory=WARN/' /opt/spark/spark-$SPARK_VERSION/conf/log4j.properties
 
+COPY hive-site.xml /opt/spark/spark-$SPARK_VERSION/conf/hive-site.xml
+
+
 VOLUME /spark-data
 WORKDIR /spark-data
 ENTRYPOINT /opt/spark/spark-$SPARK_VERSION/bin/spark-shell
